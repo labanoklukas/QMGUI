@@ -38,6 +38,7 @@ const Snow = () => {
             <div className='blurBackdrop'>
             {/* Render forecast data here */}
             <h1>Forecast Data</h1>
+            <Link to="/">Back</Link>
             </div>
         </div>
     );
