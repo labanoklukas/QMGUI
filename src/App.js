@@ -1,11 +1,20 @@
+import React from 'react';
 import './App.css';
+import { Router, Route, } from 'react-router-dom';
 import WeatherApp from './WeatherApp/WeatherApp.jsx';
+import Forecast from './Forecast/Forecast.jsx';
+import Snow from './Snow/Snow.jsx';
 
-function App() {
+
+const App = () => {
   return (
     <div className="background">
       <div className='blurBackdrop'>
-        <WeatherApp/>
+        <Router>
+          <Route exact path = "/" component={WeatherApp} />
+          <Route path = "/forecast" component={Forecast} />
+          <Route path = "/Snow" component={Snow} />
+        </Router>
       </div>
     </div>
   );
