@@ -9,6 +9,7 @@ const Forecast = () => {
         <div className='background'>
             <div className='blurBackdrop'>
                 <h1>Forecast Page</h1>
+                <Link to="/">Back</Link>
                 <p>This is the Forecast page content.</p>
             </div>
         </div>
