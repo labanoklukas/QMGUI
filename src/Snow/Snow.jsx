@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Snow.css';
 
 const api_key = "037801e525acc86cf8c189da8468446e";
@@ -35,8 +36,11 @@ const Snow = () => {
 
     return (
         <div className='container'>
-            {/* Render forecast data here */}
             <h1>Forecast Data</h1>
+            <Link to="/">Back</Link>
+            <div>
+
+    </div>
         </div>
     );
 };
