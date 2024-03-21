@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './WeatherApp.css';
-
+import Forecast from '../Forecast/Forecast';
 import forecast_icon from "../Assests/calendar.webp"
 import lift_icon from "../Assests/snow-lift.png"
 import search_icon from "../Assests/search.png";
@@ -12,18 +12,24 @@ import rain_icon from "../Assests/rain.png";
 import snow_icon from "../Assests/snow.png";
 import wind_icon from "../Assests/wind.png";
 import humidity_icon from "../Assests/humidity.png";
+import unavailable_icon from "../Assests/unavailable.png"; // Import the unavailable icon
 
 const api_key = "037801e525acc86cf8c189da8468446e";
 
-export const WeatherApp = () => {
-
+const WeatherApp = () => {
+    const [city, setCity] = useState('');
     const [wicon, setWicon] = useState(cloud_icon);
-
+    const [wicon2, setWicon2] = useState(lift_icon);
+    const [showForecast, setShowForecast] = useState(false);
+    const [cityInfoAvailable, setCityInfoAvailable] = useState(true);
+    
     const search = async () => {
-        const cityName = document.getElementsByClassName("searchBox");
+        const cityName = document.getElementsByClassName("cityInput");
         if (cityName[0].value === "") {
             return 0;
         }
+        setCity(cityName[0].value);
+        setShowForecast(true);
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName[0].value}&units=Metric&appid=${api_key}`;
 
         try {
@@ -33,18 +39,48 @@ export const WeatherApp = () => {
 
             const humidity = document.getElementsByClassName("humidity-percent");
             const wind = document.getElementsByClassName("wind-rate");
-            const temperature = document.getElementsByClassName("temp");
-            const location = document.getElementsByClassName("location");
+            const temperature = document.getElementsByClassName("weather-temp");
+            const location = document.getElementsByClassName("weather-location");
 
             if (data.main) {
-                humidity[0].innerHTML = Math.round(data.main.humidity) + "%";
-                temperature[0].innerHTML = Math.round(data.main.temp) + "°C";
+                humidity[0].innerHTML = data.main.humidity + "%";
+                temperature[0].innerHTML = data.main.temp + "°C";
             } else {
                 console.error("Main data not found in API response.");
             }
 
             if (data.wind) {
-                wind[0].innerHTML = Math.round(data.wind.speed) + " km/h";
+                wind[0].innerHTML = data.wind.speed + " km/h";
+
+                // Check if wind speed is over 40mph (convert m/s to mph)
+                if (data.wind.speed * 3.6 > 1) {
+                    setWicon2(unavailable_icon); // Set unavailable icon if wind speed is over 40mph
+                } else {
+                    if (data.weather && data.weather.length > 0) {
+                        const weatherIconCode = data.weather[0].icon;
+                        console.log("Weather Icon Code:", weatherIconCode);
+
+                        if (weatherIconCode === "01d" || weatherIconCode === "01n") {
+                            setWicon(clear_icon);
+                        } else if (weatherIconCode === "02d" || weatherIconCode === "02n") {
+                            setWicon(cloud_icon);
+                        } else if (weatherIconCode === "03d" || weatherIconCode === "03n") {
+                            setWicon(drizzle_icon);
+                        } else if (weatherIconCode === "04d" || weatherIconCode === "04n") {
+                            setWicon(cloud_icon);
+                        } else if (weatherIconCode === "09d" || weatherIconCode === "09n") {
+                            setWicon(rain_icon);
+                        } else if (weatherIconCode === "10d" || weatherIconCode === "10n") {
+                            setWicon(rain_icon);
+                        } else if (weatherIconCode === "13d" || weatherIconCode === "13n") {
+                            setWicon(snow_icon);
+                        } else {
+                            setWicon(clear_icon);
+                        }
+                    } else {
+                        console.error("Weather data not found in API response.");
+                    }
+                }
             } else {
                 console.error("Wind data not found in API response.");
             }
@@ -53,31 +89,6 @@ export const WeatherApp = () => {
                 location[0].innerHTML = data.name;
             } else {
                 console.error("Location data not found in API response.");
-            }
-
-            if (data.weather && data.weather.length > 0) {
-                const weatherIconCode = data.weather[0].icon;
-                console.log("Weather Icon Code:", weatherIconCode);
-
-                if (weatherIconCode === "01d" || weatherIconCode === "01n") {
-                    setWicon(clear_icon);
-                } else if (weatherIconCode === "02d" || weatherIconCode === "02n") {
-                    setWicon(cloud_icon);
-                } else if (weatherIconCode === "03d" || weatherIconCode === "03n") {
-                    setWicon(drizzle_icon);
-                } else if (weatherIconCode === "04d" || weatherIconCode === "04n") {
-                    setWicon(cloud_icon);
-                } else if (weatherIconCode === "09d" || weatherIconCode === "09n") {
-                    setWicon(rain_icon);
-                } else if (weatherIconCode === "10d" || weatherIconCode === "10n") {
-                    setWicon(rain_icon);
-                } else if (weatherIconCode === "13d" || weatherIconCode === "13n") {
-                    setWicon(snow_icon);
-                } else {
-                    setWicon(clear_icon);
-                }
-            } else {
-                console.error("Weather data not found in API response.");
             }
 
         } catch (error) {
@@ -99,9 +110,9 @@ export const WeatherApp = () => {
                             <div className='dataDisplay'>
                                 <img className='locationWeatherIcon' src={wicon} alt= "Cloud-icon" />
                                 <div className='locationTempStack'>
-                                        <h2 className='location'>London</h2>
+                                        <h2 className='location'></h2>
 
-                                        <h1 className='temp'>24°C</h1>
+                                        <h1 className='temp'>--°C</h1>
                                     
                                 </div>
                             </div>
@@ -148,7 +159,7 @@ export const WeatherApp = () => {
                                     </div>
                                     <div className="lifts-and-trails-box widget">
                                         <Link to='trails-and-lifts'>
-                                            <img src={lift_icon} className="image-center" alt="lift icon" />
+                                            <img src={wicon2} className="image-center" alt="lift icon" />
                                         </Link>
                                         <div className="box-text">Lifts and Trails</div>
                                     </div>
