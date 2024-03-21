@@ -12,7 +12,7 @@ import rain_icon from "../Assests/rain.png";
 import snow_icon from "../Assests/snow.png";
 import wind_icon from "../Assests/wind.png";
 import humidity_icon from "../Assests/humidity.png";
-import unavailable_icon from "../Assests/unavailable.png"; // Import the unavailable icon
+import unavailable_icon from "../Assests/unavailable.png";
 
 const api_key = "037801e525acc86cf8c189da8468446e";
 
