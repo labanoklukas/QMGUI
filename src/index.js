@@ -13,6 +13,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+
+document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
+
 const router = createBrowserRouter([
   {
     path: "/",
