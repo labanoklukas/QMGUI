@@ -34,9 +34,11 @@ const Snow = () => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className='container'>
+        <div className='background'>
+            <div className='blurBackdrop'>
             {/* Render forecast data here */}
             <h1>Forecast Data</h1>
+            </div>
         </div>
     );
 };

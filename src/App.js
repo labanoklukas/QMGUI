@@ -3,8 +3,10 @@ import WeatherApp from './WeatherApp/WeatherApp.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <WeatherApp/>
+    <div className="background">
+      <div className='blurBackdrop'>
+        <WeatherApp/>
+      </div>
     </div>
   );
 }

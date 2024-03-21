@@ -20,7 +20,7 @@ export const WeatherApp = () => {
     const [wicon, setWicon] = useState(cloud_icon);
 
     const search = async () => {
-        const cityName = document.getElementsByClassName("cityInput");
+        const cityName = document.getElementsByClassName("searchBox");
         if (cityName[0].value === "") {
             return 0;
         }
@@ -33,18 +33,18 @@ export const WeatherApp = () => {
 
             const humidity = document.getElementsByClassName("humidity-percent");
             const wind = document.getElementsByClassName("wind-rate");
-            const temperature = document.getElementsByClassName("weather-temp");
-            const location = document.getElementsByClassName("weather-location");
+            const temperature = document.getElementsByClassName("temp");
+            const location = document.getElementsByClassName("location");
 
             if (data.main) {
-                humidity[0].innerHTML = data.main.humidity + "%";
-                temperature[0].innerHTML = data.main.temp + "°C";
+                humidity[0].innerHTML = Math.round(data.main.humidity) + "%";
+                temperature[0].innerHTML = Math.round(data.main.temp) + "°C";
             } else {
                 console.error("Main data not found in API response.");
             }
 
             if (data.wind) {
-                wind[0].innerHTML = data.wind.speed + " km/h";
+                wind[0].innerHTML = Math.round(data.wind.speed) + " km/h";
             } else {
                 console.error("Wind data not found in API response.");
             }
@@ -86,52 +86,75 @@ export const WeatherApp = () => {
     }
 
     return (
-        <div className='container'>
-            <div className="top-bar">
-                <input type="text" className="cityInput" placeholder='Search' onKeyDown={(event) => { if (event.key === 'Enter') search(); }} />
-                <div className='search-icon' onClick={search}>
-                    <img src={search_icon} alt="" />
-                </div>
-            </div>
-            <div className="weather-image">
-                <img src={wicon} alt= "Cloud-icon" />
-            </div>
-            <div className="weather-temp">--°C</div>
-            <div className="weather-location">--</div>
-            <div className="data-container">
-                <div className="element">
-                    <img src={humidity_icon} alt="" className="icon" />
-                    <div className="data">
-                        <div className="humidity-percent">--%</div>
-                        <div className='text'>Humidity</div>
-                    </div>
-                </div>
-                <div className="element">
-                    <img src={wind_icon} alt="" className="icon" />
-                    <div className="data">
-                        <div className="wind-rate">-- km/h</div>
-                        <div className='text'>Wind Speed</div>
-                    </div>
-                </div>
-            </div>
-            <div className="placeholder-boxes">
-                <div className="forecast-box box">
-                    <Link to='forecast'>
-                        <img src={forecast_icon} className="image-center" alt="forecast icon" />
-                    </Link>
-                    <div className="box-text">Forecast</div>
-                </div>
-                <div className="snow-details-box box">
-                    <Link to='snow'>
-                        <img src={snow_icon} className="image-center" alt="snow icon" />
-                    </Link>
-                    <div className="box-text">Snow Details</div>
-                </div>
-                <div className="lifts-and-trails-box box">
-                    <Link to='trails-and-lifts'>
-                        <img src={lift_icon} className="image-center" alt="lift icon" />
-                    </Link>
-                    <div className="box-text">Lifts and Trails</div>
+        <div className='background'>
+            <div className='blurBackdrop'>
+                <div className='mainBody'>  
+                        <header className="searchBar">
+                            <input type="text" className="searchBox" placeholder='Search' onKeyDown={(event) => { if (event.key === 'Enter') search(); }} />
+                            <button className='searchIcon' onClick={search}>
+                                <img src={search_icon} alt="" />
+                            </button>
+                        </header>
+                        <body>
+                            <div className='dataDisplay'>
+                                <img className='locationWeatherIcon' src={wicon} alt= "Cloud-icon" />
+                                <div className='locationTempStack'>
+                                        <h2 className='location'>London</h2>
+
+                                        <h1 className='temp'>24°C</h1>
+                                    
+                                </div>
+                            </div>
+                                <div className='dataDisplay'>
+                                    <div className='horizontalStack'>
+                                        <div className="element"> 
+                                                <img src={humidity_icon} alt="" className="icon" />
+                                                <div className="data">
+                                                    <div className="humidity-percent">--%</div>
+                                                    <div className='text'>Humidity</div>
+                                                </div>
+                                        </div>
+                                            <div className="element">
+                                                <img src={wind_icon} alt="" className="icon" />
+                                                <div className="data">
+                                                    <div className="wind-rate">-- km/h</div>
+                                                    <div className='text'>Wind Speed</div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                           
+                            <div className='dataDisplay displayWithBG'>
+                                <h1 className='displayTitle'>Your Trip</h1>
+
+                            </div>
+                    
+                        
+
+                        
+                            <div className="widgetDisplay">
+                                <div className='horizontalStack'>
+                                    <div className="forecast-box widget">
+                                        <Link to='forecast'>
+                                            <img src={forecast_icon} className="image-center" alt="forecast icon" />
+                                        </Link>
+                                        <div className="box-text">Forecast</div>
+                                    </div>
+                                    <div className="snow-details-box widget">
+                                        <Link to='snow'>
+                                            <img src={snow_icon} className="image-center" alt="snow icon" />
+                                        </Link>
+                                        <div className="box-text">Snow Details</div>
+                                    </div>
+                                    <div className="lifts-and-trails-box widget">
+                                        <Link to='trails-and-lifts'>
+                                            <img src={lift_icon} className="image-center" alt="lift icon" />
+                                        </Link>
+                                        <div className="box-text">Lifts and Trails</div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </body>
                 </div>
             </div>
         </div>
