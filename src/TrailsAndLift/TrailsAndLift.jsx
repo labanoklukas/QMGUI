@@ -6,11 +6,9 @@ const api_key = "037801e525acc86cf8c189da8468446e";
 const TrailsAndLift = () => {
 
     return (
-         
-        <div className="background">
-            <div className='blurBackdrop'>
+        <div className='container'>
             <h1>TrailsAndLift Page</h1>
-            </div>
+            <Link to="/">Back</Link>
         </div>
 
     );
