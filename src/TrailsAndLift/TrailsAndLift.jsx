@@ -8,6 +8,7 @@ const TrailsAndLift = () => {
     return (
         <div className='container'>
             <h1>TrailsAndLift Page</h1>
+            <Link to="/">Back</Link>
         </div>
 
     );
