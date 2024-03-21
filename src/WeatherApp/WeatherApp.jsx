@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './WeatherApp.css';
-
+import Forecast from '../Forecast/Forecast';
 import forecast_icon from "../Assests/calendar.webp"
 import lift_icon from "../Assests/snow-lift.png"
 import search_icon from "../Assests/search.png";
@@ -12,18 +12,24 @@ import rain_icon from "../Assests/rain.png";
 import snow_icon from "../Assests/snow.png";
 import wind_icon from "../Assests/wind.png";
 import humidity_icon from "../Assests/humidity.png";
+import unavailable_icon from "../Assests/unavailable.png"; // Import the unavailable icon
 
 const api_key = "037801e525acc86cf8c189da8468446e";
 
-export const WeatherApp = () => {
-
+const WeatherApp = () => {
+    const [city, setCity] = useState('');
     const [wicon, setWicon] = useState(cloud_icon);
-
+    const [wicon2, setWicon2] = useState(lift_icon);
+    const [showForecast, setShowForecast] = useState(false);
+    const [cityInfoAvailable, setCityInfoAvailable] = useState(true);
+    
     const search = async () => {
         const cityName = document.getElementsByClassName("cityInput");
         if (cityName[0].value === "") {
             return 0;
         }
+        setCity(cityName[0].value);
+        setShowForecast(true);
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName[0].value}&units=Metric&appid=${api_key}`;
 
         try {
@@ -45,6 +51,36 @@ export const WeatherApp = () => {
 
             if (data.wind) {
                 wind[0].innerHTML = data.wind.speed + " km/h";
+
+                // Check if wind speed is over 40mph (convert m/s to mph)
+                if (data.wind.speed * 3.6 > 1) {
+                    setWicon2(unavailable_icon); // Set unavailable icon if wind speed is over 40mph
+                } else {
+                    if (data.weather && data.weather.length > 0) {
+                        const weatherIconCode = data.weather[0].icon;
+                        console.log("Weather Icon Code:", weatherIconCode);
+
+                        if (weatherIconCode === "01d" || weatherIconCode === "01n") {
+                            setWicon(clear_icon);
+                        } else if (weatherIconCode === "02d" || weatherIconCode === "02n") {
+                            setWicon(cloud_icon);
+                        } else if (weatherIconCode === "03d" || weatherIconCode === "03n") {
+                            setWicon(drizzle_icon);
+                        } else if (weatherIconCode === "04d" || weatherIconCode === "04n") {
+                            setWicon(cloud_icon);
+                        } else if (weatherIconCode === "09d" || weatherIconCode === "09n") {
+                            setWicon(rain_icon);
+                        } else if (weatherIconCode === "10d" || weatherIconCode === "10n") {
+                            setWicon(rain_icon);
+                        } else if (weatherIconCode === "13d" || weatherIconCode === "13n") {
+                            setWicon(snow_icon);
+                        } else {
+                            setWicon(clear_icon);
+                        }
+                    } else {
+                        console.error("Weather data not found in API response.");
+                    }
+                }
             } else {
                 console.error("Wind data not found in API response.");
             }
@@ -53,31 +89,6 @@ export const WeatherApp = () => {
                 location[0].innerHTML = data.name;
             } else {
                 console.error("Location data not found in API response.");
-            }
-
-            if (data.weather && data.weather.length > 0) {
-                const weatherIconCode = data.weather[0].icon;
-                console.log("Weather Icon Code:", weatherIconCode);
-
-                if (weatherIconCode === "01d" || weatherIconCode === "01n") {
-                    setWicon(clear_icon);
-                } else if (weatherIconCode === "02d" || weatherIconCode === "02n") {
-                    setWicon(cloud_icon);
-                } else if (weatherIconCode === "03d" || weatherIconCode === "03n") {
-                    setWicon(drizzle_icon);
-                } else if (weatherIconCode === "04d" || weatherIconCode === "04n") {
-                    setWicon(cloud_icon);
-                } else if (weatherIconCode === "09d" || weatherIconCode === "09n") {
-                    setWicon(rain_icon);
-                } else if (weatherIconCode === "10d" || weatherIconCode === "10n") {
-                    setWicon(rain_icon);
-                } else if (weatherIconCode === "13d" || weatherIconCode === "13n") {
-                    setWicon(snow_icon);
-                } else {
-                    setWicon(clear_icon);
-                }
-            } else {
-                console.error("Weather data not found in API response.");
             }
 
         } catch (error) {
@@ -94,7 +105,7 @@ export const WeatherApp = () => {
                 </div>
             </div>
             <div className="weather-image">
-                <img src={wicon} alt= "Cloud-icon" />
+                <img src={wicon} alt= "Weather Icon" />
             </div>
             <div className="weather-temp">--°C</div>
             <div className="weather-location">--</div>
@@ -102,7 +113,7 @@ export const WeatherApp = () => {
                 <div className="element">
                     <img src={humidity_icon} alt="" className="icon" />
                     <div className="data">
-                        <div className="humidity-percent">--%</div>
+                        <div className="humidity-percent">-- %</div>
                         <div className='text'>Humidity</div>
                     </div>
                 </div>
@@ -114,9 +125,10 @@ export const WeatherApp = () => {
                     </div>
                 </div>
             </div>
+            {showForecast && <Forecast city={city} />}
             <div className="placeholder-boxes">
                 <div className="forecast-box box">
-                    <Link to='forecast'>
+                    <Link to={{ pathname: '/forecast', state: { city } }}>
                         <img src={forecast_icon} className="image-center" alt="forecast icon" />
                     </Link>
                     <div className="box-text">Forecast</div>
@@ -129,7 +141,7 @@ export const WeatherApp = () => {
                 </div>
                 <div className="lifts-and-trails-box box">
                     <Link to='trails-and-lifts'>
-                        <img src={lift_icon} className="image-center" alt="lift icon" />
+                        <img src={wicon2} className="image-center" alt="lift icon" />
                     </Link>
                     <div className="box-text">Lifts and Trails</div>
                 </div>
