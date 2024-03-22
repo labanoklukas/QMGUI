@@ -1,0 +1,232 @@
+body {
+    height: 500px;
+}
+
+.mainBody {
+    width: 650px;
+    height: 500px;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 50px;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 7px;
+}
+
+header input {
+    display: flex;
+    width: 350px;
+    height: 50px;
+    background-color: #47565d;
+    opacity: 0.75;
+    font-weight: 200px;
+    padding-left: 30px;
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    color: #ffffff;
+    font-size: 20px;
+    
+}
+
+::placeholder {
+    color: #ffffff;
+}
+
+button.searchIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 52px;
+    height: 52px;
+    background-color: #47565d;
+    opacity: 0.75;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: rgb(110, 133, 144);
+    opacity: 0.65;
+}
+.placeholder-boxes {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.locationTempStack {
+    padding-right: 15px;
+}
+
+.locationWeatherIcon {
+    float: left;
+    margin-top: 15px;
+    opacity: 0.90;
+    width: 150px;
+    height: 150px;
+    padding: 40px;
+}
+
+h2 {
+    padding-right: 100px;
+}
+
+.temp {
+    display: flex;
+    padding-top: 10px;
+    padding-left: 10px;
+    margin: 0;
+    float: left;
+    font-size: 90px;
+    font-weight: 350;
+    color: white;
+
+}
+
+.location {
+    float: left;
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 50px;
+    font-weight: 300;
+    color: white;
+}
+
+.forecast-box,
+.snow-details-box,
+.lifts-and-trails-box {
+    width: 120px; /* Adjust the width as needed */
+    text-align: center;
+}
+
+.box img {
+    width: 80px; /* Adjust the image size as needed */
+    height: 80px;
+}
+
+.box-text {
+    font-size: 18px;
+    font-weight: 300;
+    color: white; /* Adjust the font size as needed */
+    margin-top: 5px;
+}
+
+
+.widget{
+    margin: 0;
+    height: 150px;
+    width: 33%;
+    text-align: center;
+    font-size: 20px;
+    background-color: #47565d;    
+    opacity: 0.85;
+    color: #fff;
+    border-radius: 30px;
+}
+
+.widget:hover{
+    cursor: pointer;
+    background-color: #7c96a3;  
+}
+
+.image-center{
+    display:block;
+    height: 100px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    cursor: pointer;
+}
+
+
+.search-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 65px;
+    background: #ebfffc;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.search-icon:hover{
+    background-color: #e8e8e8;
+}
+
+.dataDisplay {
+    text-align: center;
+    position: relative;
+    width: 90%;
+    height: 250px;
+    border-radius: 40px;
+}
+
+.widgetDisplay {
+    top: -150px;
+    text-align: center;
+    position: relative;
+    width: 90%;
+    height: 250px;
+    border-radius: 40px;
+}
+
+.displayWithBG {
+    top: -200px;
+    position: relative;
+    background-color: #47565d;
+    opacity: 0.75;
+}
+
+.displayTitle {
+    text-align: left;
+    padding-top: 15px;
+    padding-left: 50px;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+}
+
+.horizontalStack {
+    text-align: center;
+    display: inline-flex;
+    position: relative;
+    top: -30px;
+    gap: 12px;
+    margin: 0;
+    margin-top: 5px;
+    width: 90%;
+    height: 250px;
+    border-radius: 50px;
+}
+
+.element {
+    text-align: center;
+    padding-left: 60px;
+    
+}
+
+.data{
+    float: right;
+    font-size: 25px;
+    font-weight: 400;
+    color: white;
+}
+
+.text{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.icon{
+    margin: 10px;
+    float:left;
+}
