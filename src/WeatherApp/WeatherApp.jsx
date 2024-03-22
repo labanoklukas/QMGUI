@@ -100,7 +100,7 @@ const WeatherApp = () => {
             <div className='blurBackdrop'>
                 <div className='mainBody'>  
                         <header className="searchBar">
-                            <input type="text" className="searchBox" placeholder='Search' onKeyDown={(event) => { if (event.key === 'Enter') search(); }} />
+                            <input type="text" className="cityInput" placeholder='Search' onKeyDown={(event) => { if (event.key === 'Enter') search(); }} />
                             <button className='searchIcon' onClick={search}>
                                 <img src={search_icon} alt="" />
                             </button>
@@ -111,7 +111,7 @@ const WeatherApp = () => {
                                 <div className='locationTempStack'>
                                         <h2 className='location'></h2>
 
-                                        <h1 className='temp'>--°C</h1>
+                                        <h1 className="weather-temp">--°C</h1>
                                     
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ const WeatherApp = () => {
                             </div>
                     
                         
-
+                            {showForecast && <Forecast city={city} />}
                             <div className="widgetDisplay">
                                 <div className='horizontalStack'>
                                     <div className="forecast-box widget">
